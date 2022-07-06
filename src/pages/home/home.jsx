@@ -1,31 +1,29 @@
-import React from "react";
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
-import Stack from '@mui/material/Stack';
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import { Typography, Button } from '@mui/material';
 
-
-class Home extends React.Component{
-    render(){
-        return(
-            <React.Fragment>
-                <Container>
-                    <Grid container>
-                        <Grid item xs={6}>
-                            <Container>
-                                <Stack spacing={2}>
-                                    <p>Hello</p>
-                                </Stack>
-                            </Container>
-                        </Grid>
-                        <Grid item xs={6}>
-
-                        </Grid>
-                    </Grid>
-                </Container>
-            </React.Fragment>            
-        )
-    }
+export default function SimpleContainer() {
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container>
+        <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} >
+            <Typography variant='h4'>
+                Providing Digital Content Solutions
+            </Typography>
+            <Typography variant='subtitle1'>
+                We provide Tools for creating Digital Content using Machine Learning and Services using these Tools with Manual Supervison.
+            </Typography>
+            <Button variant="contained" href="#outlined-buttons">
+                View Services
+            </Button>
+            <Button variant="contained" href="#outlined-buttons">
+                Explore Tools
+            </Button>
+        </Box>
+      </Container>
+    </React.Fragment>
+  );
 }
-
-export default Home
