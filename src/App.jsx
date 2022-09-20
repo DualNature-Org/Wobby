@@ -7,6 +7,7 @@ import Dashboard from './pages/user/dashboard'
 import Profile from './pages/user/profile'
 import Login from './pages/auth/login'
 import Register from './pages/auth/register'
+import AdminLogin from './pages/admin/admin_login'
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,6 +22,7 @@ export default function App(){
       <Navigation/>
 
       <Routes>
+        <Route path= '/admin' element={<AdminLogin />} />
         <Route path= '/services' element={<Services />} />
         <Route path= '/tools' element={<Tools />} />
         <Route path= '/about' element={<About />} />
