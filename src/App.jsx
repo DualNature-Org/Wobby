@@ -3,35 +3,40 @@ import Home from './pages/home/home'
 import Tools from './pages/tools/tools'
 import Services from './pages/services/services'
 import About from './pages/about/about'
-import Dashboard from './pages/user/dashboard'
-import Profile from './pages/user/profile'
-import Login from './pages/auth/login'
-import Register from './pages/auth/register'
-import AdminLogin from './pages/admin/admin_login'
+
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from 'react-router-dom'
 
+import UserLogin from './pages/user/login'
+import UserRegister from './pages/user/register'
+import UserDashboard from './pages/user/dashboard'
+import AdminDashboard from './pages/admin/dashboard'
+import Footer from './components/footer'
+import { useState } from 'react'
 
 export default function App(){
+  const [login_status, set_login_status]= useState(false)
+
   return(
     <Router>
 
       <Navigation/>
 
       <Routes>
-        <Route path= '/admin' element={<AdminLogin />} />
-        <Route path= '/services' element={<Services />} />
+        <Route path= '/' element={<Home />} />
+        <Route path= '/user' element={<UserDashboard />} />
+        <Route path= '/auth/login' element= {<UserLogin />} />
+        <Route path= '/auth/register' element= {<UserRegister />} />
+        <Route path= '/admin' element={<AdminDashboard />} />
         <Route path= '/tools' element={<Tools />} />
         <Route path= '/about' element={<About />} />
-        <Route path= '/login' element={<Login />} />
-        <Route path= '/register' element={<Register />} />
-        <Route path= '/dashboard' element={<Dashboard />} />
-        <Route path= '/profile' element={<Profile />} />
-        <Route path= '/' element={<Home />} />
+        <Route path= '/services' element={<Services />} />
       </Routes>
+
+      <Footer/>
 
     </Router>
   )
