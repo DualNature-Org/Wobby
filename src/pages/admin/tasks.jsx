@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Tasks() {
-    const [pendingTasks, setPendingTasks] = useState([['New Task', '30/12/2022', 'Marrie', 'Not Done']])
     const [pendingPayments, setPendingPayments] = useState([['New Task', '01/12/2022', 'Marrie', 'Not Done']])
-    const [filter, setFilter]= useState('None')
+    const [filter, setFilter]= useState('Task')
     const [input, setInput]= useState('')
     const [response, setResponse]= useState([])
     const [addForm, setAddForm]= useState(false)
+
+    const pending= [['New Task', '30/12/2022', 'Marrie', 'Not Done']]
 
     const [taskName, setTaskName]= useState('')
     const [taskPrice, setTaskPrice]= useState('sa')
@@ -18,8 +19,14 @@ export default function Tasks() {
     const [taskCompensation, setTaskCompensation]= useState(taskPrice*0.2)
     const [taskTags, setTaskTags]= useState('')
 
+
     useEffect(() => {
-        fetch('')
+        fetch('http://127.0.0.1:5000/task/pending')
+        .then(res => res.json())
+        .then((data) => {
+            console.log(data)
+            pending= data['tasks']
+        })
     })
 
     const handle_filter= (e) => {
@@ -53,15 +60,17 @@ export default function Tasks() {
             headers: {'Content-Type': 'Application/json'},
             body: JSON.stringify(request_data)
         }
-        fetch('http://127.0.0.1:5000/task/add', requestOpts)
+        fetch('http://127.0.0.1:5000/task/insert', requestOpts)
         .then(res => res.json())
         .then(data => console.log(data))
     }
     const handle_back_arrow= ()=> {
         setAddForm(false)
     }
-    const handle_click= (e)=> {
-        fetch('http://127.0.0.1:5000/task/add')
+    const handle_id_click= (e, id)=> {
+        fetch('http://127.0.0.1:5000/task/?Id='+ id)
+        .then(res => res.json())
+        .then(data => console.log(data))
     }
 
     const show_response= () => {
@@ -81,7 +90,7 @@ export default function Tasks() {
                                 {response.map((task) => (
                                     <TableRow>
                                         <TableCell>
-                                            <Link underline="hover" name={task[0]} onClick={handle_click}>{task[0]}</Link>
+                                            <Link underline="hover" onClick={(e)=> handle_id_click(e, task[0])}>{task[0]}</Link>
                                         </TableCell>
                                         <TableCell align="right">{task[1]}</TableCell>
                                         <TableCell align="right">{task[2]}</TableCell>
@@ -121,7 +130,8 @@ export default function Tasks() {
             <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Button variant="contained" onClick={handle_add_task} sx={{marginTop: '1rem'}}>Submit</Button>
             </Box>
-        </Container> :
+        </Container> 
+        :
         <Container sx={{marginTop: '1rem'}}>
 
             <Grid container alignItems='center' justifyContent= 'space-between'>
@@ -129,10 +139,10 @@ export default function Tasks() {
                     <Select label='Filter' value={filter} onChange={handle_filter}>
                         <MenuItem value={'Task'}>Task</MenuItem>
                         <MenuItem value={'Client'}>Client</MenuItem>
-                        <MenuItem value={'None'}>All</MenuItem>
+                        <MenuItem value={'Expert'}>Expert</MenuItem>
                     </Select> 
-                    <TextField variant="outlined" label='Input' value={input} onChange={handle_input}/>
-                    <Button variant="contained" onClick={handle_find} sx={{ marginLeft: '1rem'}}>Find Task</Button>
+                    <TextField variant="outlined" label='Name' value={input} onChange={handle_input}/>
+                    <Button variant="contained" onClick={handle_find} sx={{ marginLeft: '1rem'}}>Search</Button>
                 </Grid>
                 <Grid item>
                     <Button variant="contained" onClick={handle_assign}>Assign Task</Button>
@@ -155,7 +165,7 @@ export default function Tasks() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                            {pendingTasks.map((task) => (
+                            {pending.map((task) => (
                                 <TableRow>
                                     <TableCell>{task[0]}</TableCell>
                                     <TableCell align="right">{task[1]}</TableCell>

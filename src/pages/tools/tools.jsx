@@ -1,4 +1,5 @@
 import { Button, Grid, Stack } from "@mui/material";
+import { Box } from "@mui/system";
 import Playground from "./playground";
 import './tools.css'
 
@@ -6,21 +7,11 @@ import './tools.css'
 export default function Tools(){
 
     return(
-        <Grid container>
-
-            {/* sidebar */}
-            <Grid item xs= {2} sx={{background: '#eaecf2'}}>
-                <Stack spacing={1}>
-                    <Button>Playground</Button>
-                    <Button>Parapharse</Button>
-                </Stack>
-            </Grid>
-
-            {/* main area */}
-            <Grid item xs= {10}>
-                <Playground/>
-            </Grid>
-            
-        </Grid>
+        <Box sx={{
+            padding: '4rem 2rem 0 2rem',
+            bgcolor: '#E6DDD6'
+        }}>
+            <Playground/>
+        </Box>
     )
 }
