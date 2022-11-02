@@ -3,7 +3,7 @@ import { Container, Box } from "@mui/system";
 
 export default function Footer() {
     return(
-        <Box sx={{display: 'fixed', bottom: '0', background: '#6a5353', padding: '.5rem', color: '#fff'}}>
+        <Box sx={{display: 'fixed', bottom: '0', background: '#9284e1', padding: '.5rem'}}>
             <Container sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <Typography variant="subtitle2">
                     Copyright by dualnature.org @2022

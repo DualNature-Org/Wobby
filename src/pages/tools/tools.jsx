@@ -1,8 +1,9 @@
-import { Grid, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { CardActions, CardContent, Container, Grid, Button, Paper, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from 'react'
 import Playground from "./playground";
 import Rephraser from "./rephraser"
+import Card from '../../components/tools_card'
 import './tools.css'
 
 
@@ -21,31 +22,34 @@ export default function Tools(){
         else if(page == 'Rephraser'){
             return <Rephraser/>
         }
-        // else{
-        //     return <Summariser/>
-        // }
+        
     }
     return(
         <Box sx={{
-            padding: '4rem 0 0 0',
-            bgcolor: '#E6DDD6'
+            marginTop: '4rem'
         }}>
-            <Grid container>
-                <Grid item xs={2} sx={{borderRight: 'solid black 1px'}}>
-                    <List>
-                        {pages.map((page) => (                       
-                            <ListItem disablePadding>
-                                <ListItemButton onClick={(e) => set_page(page)}>
-                                    <ListItemText primary={page}></ListItemText>
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </Grid>
-                <Grid item xs= {10}>
-                    {render_tool()}
-                </Grid>
-            </Grid>
+            <Box sx={{height: '20vh', bgcolor: '#efd7fa', textAlign: 'center', padding: '3rem'}}>
+                <Container>
+                    <Typography variant="h2">
+                    Try First 5000 words Free
+                    </Typography>
+                    <br/>
+                    <Button variant="contained">Upgrade to Premium</Button>
+                </Container>            
+            </Box>
+            <br/>
+            <Container>
+                <Typography variant="h4">
+                    Tools
+                </Typography>
+                <br/>
+                <Stack spacing={2} direction="row" width={'100%'}>
+                    <Card name="Playground" description="Most of the feture are applicable here."></Card>
+                    <Card name="Paraphraser" description="Most of the feture are applicable here."></Card>
+                    <Card name="Sumariser" description="Most of the feture are applicable here."></Card>
+                </Stack>
+            </Container>
+            <br/>
         </Box>
     )
 }

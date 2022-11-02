@@ -10,7 +10,7 @@ export default function SimpleContainer() {
   return (
     <React.Fragment>
 
-      <Box sx={{ bgcolor: '#E6DDD6', padding: '4rem 0', marginTop: '3rem', textAlign: 'center'}} >
+      <Box sx={{ padding: '4rem 0', marginTop: '3rem', textAlign: 'center'}} >
         <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <img src={logo} style={{width: '100px', height: '120px'}}></img>
             <Typography variant='h5'>
