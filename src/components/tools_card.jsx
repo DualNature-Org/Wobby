@@ -5,7 +5,7 @@ export default function Card(props) {
     return(
         <Paper elevation={2}>
             <CardContent>
-                <Typography variant='h5'>
+                <Typography variant='h6'>
                     {props.name}
                 </Typography>
                 <br/>

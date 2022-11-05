@@ -28,10 +28,10 @@ export default function Tools(){
         <Box sx={{
             marginTop: '4rem'
         }}>
-            <Box sx={{height: '20vh', bgcolor: '#efd7fa', textAlign: 'center', padding: '3rem'}}>
+            <Box sx={{ bgcolor: '#efd7fa', textAlign: 'center', padding: '3rem'}}>
                 <Container>
-                    <Typography variant="h2">
-                    Try First 5000 words Free
+                    <Typography variant='h4'>
+                        Play with 5000 Words for Free
                     </Typography>
                     <br/>
                     <Button variant="contained">Upgrade to Premium</Button>
@@ -39,14 +39,14 @@ export default function Tools(){
             </Box>
             <br/>
             <Container>
-                <Typography variant="h4">
+                <Typography variant="h5">
                     Tools
                 </Typography>
                 <br/>
-                <Stack spacing={2} direction="row" width={'100%'}>
-                    <Card name="Playground" description="Most of the feture are applicable here."></Card>
-                    <Card name="Paraphraser" description="Most of the feture are applicable here."></Card>
-                    <Card name="Sumariser" description="Most of the feture are applicable here."></Card>
+                <Stack spacing={2} direction={{ xs: 'column', sm: 'row'}} width={'100%'}>
+                    <Card name="Playground" description="Most of the tools are present here for little use."></Card>
+                    <Card name="Paraphraser" description="For repharing large chunks of content."></Card>
+                    <Card name="Summariser" description="For summarise large chunk of content."></Card>
                 </Stack>
             </Container>
             <br/>
