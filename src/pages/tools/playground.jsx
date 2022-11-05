@@ -45,8 +45,8 @@ export default function Playground(){
                 set_response(data['detail'])
                 set_error(true)
             }
-            else if(data['user'] != null){
-                set_text(text+ data['user'])
+            else if(data['content'] != null){
+                set_text(text+ "\n"+ data['content'])
                 set_response('writed')
                 set_success(true)
             }
