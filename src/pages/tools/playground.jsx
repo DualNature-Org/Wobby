@@ -38,7 +38,7 @@ export default function Playground(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: prompt})
         }
-        fetch('https://dualnature.org/tools/write', request_option)
+        fetch('https://dualnature.org/wobby/tools/write', request_option)
         .then(res => res.json())
         .then(data => {
             if(data['detail'] != null){
@@ -61,7 +61,7 @@ export default function Playground(){
             headers: {'Content-Type': 'Application/json'},
             body: JSON.stringify({content: prompt})
         }
-        fetch('http://127.0.0.1:8080/wobby/tools/rephrase', request_option)
+        fetch('https://dualnature.org/wobby/tools/rephrase', request_option)
         .then(res => res.json())
         .then(data => {
             console.log(prompt)
