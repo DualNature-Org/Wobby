@@ -21,7 +21,7 @@ export default function UserLogin(props){
             headers: {'Content-Type': 'Application/json'},
             body: JSON.stringify({username: username, password: password})
         }
-        fetch('https://dualnature.org/api/auth/login', request_object)
+        fetch('http://127.0.0.1:8000/api/auth/login', request_object)
         .then(res => res.json())
         .then(data => {
             if(data['non_field_errors'] != null){

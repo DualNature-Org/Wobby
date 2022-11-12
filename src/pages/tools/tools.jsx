@@ -26,17 +26,9 @@ export default function Tools(){
     }
     return(
         <Box sx={{
-            marginTop: '4rem'
+            marginTop: '4rem',
+            height: '82vh'
         }}>
-            <Box sx={{ bgcolor: '#efd7fa', textAlign: 'center', padding: '3rem'}}>
-                <Container>
-                    <Typography variant='h4'>
-                        Play with 5000 Words for Free
-                    </Typography>
-                    <br/>
-                    <Button variant="contained">Upgrade to Premium</Button>
-                </Container>            
-            </Box>
             <br/>
             <Container>
                 <Typography variant="h5">

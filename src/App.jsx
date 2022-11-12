@@ -16,6 +16,7 @@ import UserRegister from './pages/user/register'
 import UserDashboard from './pages/user/dashboard'
 import AdminDashboard from './pages/admin/dashboard'
 import Footer from './components/footer'
+import OrderPage from './pages/payment/order'
 import { useState } from 'react'
 
 export default function App(){
@@ -37,6 +38,7 @@ export default function App(){
       <Routes>
         <Route path= '/' element={<Home />} />
         <Route path= '/user' element={<UserDashboard />} />
+        <Route path= '/order' element={<OrderPage />} />
         <Route path= '/auth/login' element= {<UserLogin onChange={handle_login} logined={logined} handle_username={handle_username}/>} />
         <Route path= '/auth/register' element= {<UserRegister onChange={handle_login} logined={logined} handle_username={handle_username}/>} />
         <Route path= '/admin' element={<AdminDashboard />} />
