@@ -17,7 +17,7 @@ export default function OrderPage(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token'+ localStorage.getItem('token')},
             body: JSON.stringify({credits: credits})
         }
-        fetch('http://127.0.0.1:8000/api/auth/order', request_options)
+        fetch('https://dualnature.org/api/auth/order', request_options)
         .then(res => res.json())
         .then(data => {
             

@@ -84,7 +84,7 @@ export default function Paper_(){
                 headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
                 body: JSON.stringify({prompt: selection})
             }
-            fetch('http://127.0.0.1:8000/wobby/extend', request_option)
+            fetch('https://dualnature.org/wobby/extend', request_option)
             .then(res => res.json())
             .then(data => {
                 if(data['detail'] != null){
@@ -112,7 +112,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: selection})
         }
-        fetch('http://127.0.0.1:8000/wobby/rephrase', request_option)
+        fetch('https://dualnature.org/wobby/rephrase', request_option)
         .then(res => res.json())
         .then(data => {
             set_value(value+ data['content'])
@@ -125,7 +125,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: selection})
         }
-        fetch('http://127.0.0.1:8000/wobby/create', request_option)
+        fetch('https://dualnature.org/wobby/create', request_option)
         .then(res => res.json())
         .then(data => {
             console.log(data)

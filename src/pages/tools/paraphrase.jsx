@@ -16,7 +16,7 @@ export default function Paraphraser(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: prompt})
         }
-        fetch('http://127.0.0.1:8000/wobby/paraphrase', request_option)
+        fetch('https://dualnature.org/wobby/paraphrase', request_option)
         .then(res => res.json())
         .then(data => {
             set_content(data['content'])
