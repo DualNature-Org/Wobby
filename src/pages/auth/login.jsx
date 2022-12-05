@@ -51,7 +51,7 @@ export default function UserLogin(props){
     }
     const redirect= ()=> {
         if(props.logined){
-            return (<Navigate to='/' replace={true}/>)
+            return (<Navigate to='/user' replace={true}/>)
         }
     }
 
@@ -62,7 +62,7 @@ export default function UserLogin(props){
             justifyContent: 'center', 
             alignItems: 'center', 
             padding: '2rem 0', 
-            background: '#E6DDD6',
+            background: '#d7d7ff',
             height: '75vh'
         }}>
             <Paper elevation={1}>

@@ -14,7 +14,7 @@ export default function Card(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Link to='/tools/playground'>
+                <Link to={props.link}>
                     <Button size="small">Try Now</Button>
                 </Link>
             </CardActions>

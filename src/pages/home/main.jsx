@@ -13,7 +13,7 @@ export default function SimpleContainer() {
   }
   
   return (
-    redirect? <Navigate to='/tools/playground'/>: 
+    redirect? <Navigate to='/tools'/>: 
     <React.Fragment>
 
       <Box sx={{ padding: '4rem 0', marginTop: '3rem', textAlign: 'center'}} >

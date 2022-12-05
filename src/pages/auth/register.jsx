@@ -1,7 +1,7 @@
 import { Alert, Button, Grid, Paper, Stack, TextField, Typography, Snackbar } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import Home from '../home/home'
+import Home from '../home/main'
 import { Link, Navigate } from "react-router-dom";
 
 export default function UserRegister(props){
@@ -70,7 +70,7 @@ export default function UserRegister(props){
             justifyContent: 'center', 
             alignItems: 'center', 
             padding: '2rem 0', 
-            background: '#E6DDD6',
+            background: '#d7d7ff',
             height: '75vh'
         }}>
             <Paper elevation={1}>

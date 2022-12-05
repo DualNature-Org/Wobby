@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 //  react hooks
 import { useState } from "react";
-
+// import './tools.css'
 
 function Tool(props){
     return(
@@ -41,7 +41,7 @@ export default function Playground(){
     const [prompt, set_prompt]= useState('')
     const [show_tools, set_show_tools]= useState(false)
     const [tools_cord, set_tools_cord]= useState([])
-    const [content, set_content]= useState()
+    const [content, set_content]= useState([<div>Start Writing</div>])
     const [selection, set_selection]= useState()
     // for showing the status in playground toolbox
     const [writing, set_writing]= useState(false)
@@ -110,19 +110,24 @@ export default function Playground(){
             set_content(content+ '\n'+ data['content'])
         })
     }
-    const handle_content_section= (text)=> {
-        return (
-            <div onClick={handle_selection}>
-                {text}
-            </div>
-        )
-    }
     const handle_selection= (e)=> {
-        console.log(e.target.innerText)
-        set_selection(e.target.innerText)
+        let postion= 0
+        const selection= window.getSelection()
+        if(selection.rangeCount !== 0) {
+            const range = window.getSelection().getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(e.target);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            postion = preCaretRange.toString().length;
+        }
+        console.log(postion)
     }
     const handle_content= (e)=>{
-        set_content(e.target.value)
+        // set_content(content.push(handle_content_section(e.target.value)))
+        // let arr= content
+        // arr.push(handle_content_section(e.target.value))
+        // set_content(arr)
+        console.log(e.target.innerText)
     }
     const handle_show_tools= ()=> {
         return(
@@ -191,17 +196,19 @@ export default function Playground(){
             </Paper>
 
             <Box sx={{display: 'flex', justifyContent: 'center', bgcolor: '#efd7fa', marginTop: '7rem'}}>
-                <textarea style={{
+                <div style={{
                     width: '50%', height: '100vh', 
                     backgroundColor: '#fff', padding: '1rem',
                     fontFamily: 'roboto',
                     border: 'none', outline: 'none'
                 }}
+                contentEditable="true"
                 onMouseDown={handle_tools}
                 onMouseUp={handle_prompt}
                 onChange={handle_content}
-                value={content}>
-                </textarea>
+                onClick={handle_selection}>
+                    <div dir="auto">Start Writing</div>
+                </div>
                 {show_tools ? handle_show_tools(): <div></div>}
             </Box>
 
