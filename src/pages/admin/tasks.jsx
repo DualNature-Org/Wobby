@@ -9,7 +9,7 @@ export default function Tasks() {
     const [response, setResponse]= useState([])
     const [addForm, setAddForm]= useState(false)
 
-    const pending= [['New Task', '30/12/2022', 'Marrie', 'Not Done']]
+    let pending= [['New Task', '30/12/2022', 'Marrie', 'Not Done']]
 
     const [taskName, setTaskName]= useState('')
     const [taskPrice, setTaskPrice]= useState('sa')
