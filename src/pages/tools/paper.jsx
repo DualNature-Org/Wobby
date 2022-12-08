@@ -140,7 +140,7 @@ export default function Paper_(){
                 headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
                 body: JSON.stringify({prompt: selection})
             }
-            fetch('http://localhost:8000/wobby/extend', request_option)
+            fetch('https://dualnature.org/wobby/extend', request_option)
             .then(res => res.json())
             .then(data => {
                 if(data['detail'] != null){
@@ -177,7 +177,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: selection})
         }
-        fetch('http://localhost:8000/wobby/toc', request_option)
+        fetch('https://dualnature.org/wobby/toc', request_option)
         .then(res => res.json())
         .then(data => {
             set_outline(data['toc'])
@@ -199,7 +199,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({outline: {headings: outline, title: selection}})
         }
-        fetch('http://localhost:8000/wobby/write', request_option)
+        fetch('https://dualnature.org/wobby/write', request_option)
         .then(res => res.json())
         .then(data => {
             set_write_opts(false)
@@ -234,7 +234,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: selection})
         }
-        fetch('http://localhost:8000/wobby/create', request_option)
+        fetch('https://dualnature.org/wobby/create', request_option)
         .then(res => res.json())
         .then(data => {
             console.log(data)
@@ -250,7 +250,7 @@ export default function Paper_(){
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
             body: JSON.stringify({prompt: selection})
         }
-        fetch('http://localhost:8000/wobby/code', request_option)
+        fetch('https://dualnature.org/wobby/code', request_option)
         .then(res => res.json())
         .then(data => {
             console.log(data)
