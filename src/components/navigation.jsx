@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, Typography, Tabs, Tab, Button} from '@mui/material';
+import { AppBar, Toolbar, Typography, Tabs, Tab, Button, IconButton} from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 
 
 function Header(props) {
-  const [value, setValue]= useState();
+  const [value, setValue]= useState(0);
 
   const handle_login= ()=> {
     if(props.logined){
@@ -18,9 +18,10 @@ function Header(props) {
     <AppBar sx= {{position: 'fixed'}}>
     <Toolbar>
       <Link to={'/'}>
-        <Typography variant='h6' color={'#fff'} sx={{opacity: '0.9'}}>
-          <AdbIcon fontSize='medium'/>WOBBY
-        </Typography>
+        <IconButton sx={{color: '#fff'}}>
+        <AdbIcon />
+        <Typography variant='h6' sx={{opacity: '0.9'}}>WOBBY</Typography>
+        </IconButton>
       </Link>
 
       <Tabs sx={{marginLeft: 'auto'}} onChange={(e, value)=> setValue(value)} value={value}>

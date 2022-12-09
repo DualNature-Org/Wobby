@@ -27,7 +27,7 @@ export default function Tools(){
                 <Stack spacing={2} direction={{ xs: 'column', sm: 'row'}} width={'100%'}>
                     <Card name="Paraphraser" description="For repharing large chunks of content." link='/tools/paraphraser'></Card>
                     <Card name="Summariser" description="For summarise large chunk of content." link='/tools/playground'></Card>
-                    <Card name="Referencer" description="Search and generate references and citations in different format." link='/tools/playground'></Card>
+                    {/* <Card name="Referencer" description="Search and generate references and citations in different format." link='/tools/playground'></Card> */}
                 </Stack>
             </Container>
             <br/>
