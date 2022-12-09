@@ -40,12 +40,12 @@ export default function App(){
 
       <Routes>
         <Route path= '/' element={<Home />} />
-        <Route path= '/user' element={<UserDashboard/>} />
+        <Route path= '/user' element={<UserDashboard username= {username}/>} />
         <Route path= '/auth/login' element= {<UserLogin onChange={handle_login} logined={logined} handle_username={handle_username}/>} />
         <Route path= '/auth/register' element= {<UserRegister onChange={handle_login} logined={logined} handle_username={handle_username}/>} />
         <Route path= '/auth/order' element={<OrderPage />} />
         <Route path= '/tools' element={<Tools />} />
-        <Route path= '/tools/paper' element={<Paper />} />
+        <Route path= '/tools/paper' element={<Paper logined={logined}/>} />
         <Route path= '/tools/paraphraser' element={<Paraphraser />} />
         <Route path= '/about' element={<About />} />
         <Route path= '/services' element={<Services />} />

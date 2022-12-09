@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/system";
 import { useState } from "react";
 import Profile from "./profile";
 
-export default function UserDashboard(){
+export default function UserDashboard(props){
 
     const [index, set_index]= useState(1)
     const [user, set_user]= useState([])
@@ -14,7 +14,7 @@ export default function UserDashboard(){
 
     const rendering= ()=> {
         if(index === 1){
-            return <Profile user={user} />
+            return <Profile username={props.username} />
         }
         else{
             return null
@@ -27,11 +27,11 @@ export default function UserDashboard(){
 
                 <Grid item xs={2} sx={{borderRight: 'solid black 1px'}}>
                     <List>
-                        <ListItem disablePadding>
+                        {/* <ListItem disablePadding>
                             <ListItemButton selected={index === 0} onClick={(e)=> handle_list_item(e, 0)}>
                                 <ListItemText primary='Dashboard' />
                             </ListItemButton>
-                        </ListItem>
+                        </ListItem> */}
                         <ListItem disablePadding>
                             <ListItemButton selected={index === 1} onClick={(e)=> handle_list_item(e, 1)}>
                                 <ListItemText primary='Profile' />

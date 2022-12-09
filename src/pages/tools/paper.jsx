@@ -32,9 +32,13 @@ import {
     Create,
     Notes,
     Code,
-    ReceiptLong
+    ReceiptLong,
+    ConstructionOutlined,
+    TrendingUpOutlined
 } from "@mui/icons-material";
 
+import { Navigate } from 'react-router-dom';
+import UserLogin from '../auth/login'
 
 const modules = {
     toolbar: [
@@ -56,7 +60,7 @@ const formats = [
 function Tool(props){
     return(
         <Tooltip title={props.title}>
-            <IconButton color="primary" onClick={props.handler}>
+            <IconButton color="primary" disabled={props.status} onClick={props.handler}>
                 {props.icon}
             </IconButton>
         </Tooltip>
@@ -76,10 +80,18 @@ function list_to_string(list){
     return output
 }
 
-export default function Paper_(){
+function convert_to_html(s){
+    let output= ''
+    s.split('\n').forEach(p=> {
+        output+= `<p>${p}</p>`
+    })
+    return output
+}
+
+export default function Paper_(props){
     const [value, set_value] = useState('')
     const [selection, set_selection]= useState('')
-    const [range, set_range]= useState('random')
+    const [range, set_range]= useState('')
     const [status, set_status]= useState(false)
     const [msg, set_msg]= useState(false)
     const [write_opts, set_write_opts]= useState(false)
@@ -118,6 +130,11 @@ export default function Paper_(){
 
     const handle_range= (e)=> {
         set_range(e.target.value)
+        let temp= []
+        outline.forEach(x=> {
+            temp.push([x[0], parseInt(e.target.value/outline.length)])
+        })
+        set_outline(temp)
     }
 
     const check_selection= ()=>{
@@ -144,17 +161,16 @@ export default function Paper_(){
             .then(res => res.json())
             .then(data => {
                 if(data['detail'] != null){
-                    set_msg(['error', data['detail']])
+                    set_msg(['error', 'Login First'])
                 }
                 else if(data['content'] != null){
-                    set_value(value+ data['content'])
+                    set_value(value+ convert_to_html(data['content']))
                     set_msg(['success','Written'])
                 }
                 else if(data['message'] != null){
-                    set_msg(['error', data['message']])
+                    set_msg(['error', 'Login First'])
                 }
                 else{
-                    console.log(data)
                     set_msg(['error', 'Undefined'])
                 }
                 set_status(false)
@@ -180,35 +196,66 @@ export default function Paper_(){
         fetch('https://dualnature.org/wobby/toc', request_option)
         .then(res => res.json())
         .then(data => {
-            set_outline(data['toc'])
-            set_msg(['success', 'Written'])
+            try{
+                let outline= []
+                data['toc'].forEach((heading)=> {
+                    outline.push([heading, range/data['toc'].length])
+                })
+                set_outline(outline)
+                set_msg(['success', 'TOC Generated'])
+            }
+            catch{
+                set_msg(['warning', 'An error ocurred'])
+            }
         })
     }
 
     const update_outline= ()=> {
-        let list= outline.split('\n')
-        list.splice(list.indexOf(''))
-        set_outline(list)
+        try{
+            let list= outline.split('\n')
+            list.splice(list.indexOf(''))
+            let temp= []
+            list.forEach((line)=> {
+                temp.push(line.split(','))
+            })
+            set_outline(temp)
+        }
+        catch{
+            set_outline(outline)
+        }
         set_edit(false)
+
     }
 
     const handle_write= ()=> {
         set_status(true)
+        let headings= []
+        outline.forEach(x=> {
+            headings.push({
+                title: x[0],
+                wordcount: parseInt(x[1])
+            })
+        })
         const request_option= {
             method: 'POST',
             headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
-            body: JSON.stringify({outline: {headings: outline, title: selection}})
+            body: JSON.stringify({outline: {headings: headings, title: selection}})
         }
         fetch('https://dualnature.org/wobby/write', request_option)
         .then(res => res.json())
         .then(data => {
-            set_write_opts(false)
-            set_msg(['success', 'TOC generated'])
-            render_doc(data['doc'])
+            try{
+                set_write_opts(false)
+                set_msg(['success', 'Article Written'])
+                render_doc(data['doc'])
+            }
+            catch{
+                set_msg(['warning', 'An error ocurred'])
+            }
         })
     }
 
-    const handle_rephrase= (e)=> {
+    const handle_list= (e)=> {
         set_status(true)
         if(selection == ''){
             set_msg(['warning', 'Invalid Selection'])
@@ -219,10 +266,16 @@ export default function Paper_(){
                 headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
                 body: JSON.stringify({prompt: selection})
             }
-            fetch('https://dualnature.org/wobby/rephrase', request_option)
+            fetch('https://dualnature.org/wobby/list', request_option)
             .then(res => res.json())
             .then(data => {
-                set_value(value+ data['content'])
+                try{
+                    set_value(value+ convert_to_html(data['content']))
+                    set_msg(['success', 'Written'])
+                }
+                catch{
+                    set_msg(['warning', 'An error occured'])
+                }
             })
         }
     }
@@ -237,7 +290,6 @@ export default function Paper_(){
         fetch('https://dualnature.org/wobby/create', request_option)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             set_value(value+ `<img src="${data['url']}" />`)
             set_msg(['success', 'Image Created'])
         })
@@ -253,9 +305,28 @@ export default function Paper_(){
         fetch('https://dualnature.org/wobby/code', request_option)
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             set_value(value+ `<code><pre>${data['content']}<pre/><code/>`)
             set_msg(['success', 'Code Written'])
+        })
+    }
+
+    const handle_references= ()=> {
+        set_status(true)
+        const request_option= {
+            method: 'POST',
+            headers: {'Content-Type': 'Application/json', 'Authorization': 'Token '+ localStorage.getItem('token')},
+            body: JSON.stringify({prompt: selection})
+        }
+        fetch('https://dualnature.org/wobby/references', request_option)
+        .then(res => res.json())
+        .then(data => {
+            try{
+                set_value(value+ convert_to_html(data['content']))
+                set_msg(['success', 'References Written'])
+            }
+            catch{
+                set_msg(['warning', 'An error ocurred'])
+            }
         })
     }
 
@@ -282,24 +353,24 @@ export default function Paper_(){
                 formats={formats}
                 value={value} 
                 onChange={handle_value} 
-                style={{height: '85vh',}}
+                style={{height: '80vh',}}
                 />
                 <Box sx={{position: 'absolute', top: '8rem', right: '1.2rem', bgcolor: '#a8f3a8'}}>
                     <Paper elevation={3}>
                         <Stack spacing={2}>
-                            <Tool title='extend' handler={handle_extend} icon={<Create />}/>
-                            <Tool title='write' handler={handle_write_opts} icon={<DriveFileRenameOutline />} />
-                            <Tool title='rephrase' handler={handle_rephrase} icon={<Notes />} />
-                            <Tool title='image' handler={handle_image} icon={<Image />} />
-                            <Tool title='code' handler={handle_code} icon={<Code />} />
-                            <Tool title='references' handler={handle_code} icon={<ReceiptLong />} />
+                            <Tool title='extend' handler={handle_extend} icon={<Create />} status={status}/>
+                            <Tool title='write' handler={handle_write_opts} icon={<DriveFileRenameOutline status={status}/>} />
+                            <Tool title='list' handler={handle_list} icon={<Notes />} status={status}/>
+                            <Tool title='image' handler={handle_image} icon={<Image />} status={status}/>
+                            <Tool title='code' handler={handle_code} icon={<Code />} status={status}/>
+                            <Tool title='references' handler={handle_references} icon={<ReceiptLong status={status}/>} />
                         </Stack>
                     </Paper>
                 </Box>
             </Box>
 
             {/* msg from responses */}
-            <Snackbar open={msg} autoHideDuration={5000} onClose={handle_status}>
+            <Snackbar open={msg} autoHideDuration={1000} onClose={handle_status}>
                 <Alert onClose={handle_status} severity={msg[0]} sx={{width: '100%'}}>
                     {msg[1]}
                 </Alert>
@@ -349,10 +420,10 @@ export default function Paper_(){
                 </DialogContent>
                 <hr style={{width: '90%'}}/>
                 <DialogActions sx={{justifyContent: 'space-between'}}>
-                        <Button variant='contained' size='small' onClick={handle_outline}>
+                        <Button variant='contained' size='small' disabled={status} onClick={handle_outline}>
                             Generate Outline
                         </Button>
-                        <Button variant='contained' size='small' onClick={handle_write}>
+                        <Button variant='contained' size='small' disabled={status} onClick={handle_write}>
                             Write
                         </Button>
                 </DialogActions>
