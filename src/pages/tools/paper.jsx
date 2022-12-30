@@ -1,6 +1,9 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import '../../asset/styles/paper.css'
+import wordIcon from '../../asset/icons/wordLogo.png'
+import EditorToolbar, { modules, formats } from "./EditorToolbar";
 
 import { Box } from "@mui/system";
 // Components
@@ -39,23 +42,24 @@ import {
 
 import { Navigate } from 'react-router-dom';
 import UserLogin from '../auth/login'
+import { useRef } from 'react';
 
-const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
-      ['clean']
-    ],
-  }
+// const modules = {
+//     toolbar: [
+//       [{ 'header': [1, 2, false] }],
+//       ['bold', 'italic', 'underline','strike', 'blockquote'],
+//       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+//       ['link', 'image'],
+//       ['clean']
+//     ],
+//   }
 
-const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-  ]
+// const formats = [
+//     'header',
+//     'bold', 'italic', 'underline', 'strike', 'blockquote',
+//     'list', 'bullet', 'indent',
+//     'link', 'image'
+//   ]
 
 function Tool(props){
     return(
@@ -96,8 +100,36 @@ export default function Paper_(props){
     const [msg, set_msg]= useState(false)
     const [write_opts, set_write_opts]= useState(false)
     const [edit, set_edit]= useState(false)
-
     const [outline, set_outline]= useState([])
+    const [wordcount, set_wordcount] = useState(0)
+
+    // Function for letting users download word file
+    function Export2Word(html_input, filename = ''){
+        const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+        const postHtml = "</body></html>";
+        const html = preHtml+html_input+postHtml;
+    
+        const blob = new Blob(['\ufeff', html], {
+            type: 'application/msword'
+        });
+        
+        const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+
+        filename = filename?filename+'.doc':'document.doc';
+        const downloadLink = document.createElement("a");
+        document.body.appendChild(downloadLink);
+        
+        if(navigator.msSaveOrOpenBlob ){
+            navigator.msSaveOrOpenBlob(blob, filename);
+        }else{
+            downloadLink.href = url;
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
+        
+        document.body.removeChild(downloadLink);
+    }
+    
 
     // genreal selection and content functions
     const handle_value= (value)=>{
@@ -175,6 +207,10 @@ export default function Paper_(props){
                 }
                 set_status(false)
             })
+            .catch((error) => {
+                set_msg(['warning', 'An error ocurred'])
+                console.log(error)
+            })
         }
     }
 
@@ -207,6 +243,10 @@ export default function Paper_(props){
             catch{
                 set_msg(['warning', 'An error ocurred'])
             }
+        })
+        .catch((error) => {
+            set_msg(['warning', 'An error ocurred'])
+            console.log(error)
         })
     }
 
@@ -253,6 +293,10 @@ export default function Paper_(props){
                 set_msg(['warning', 'An error ocurred'])
             }
         })
+        .catch((error) => {
+            set_msg(['warning', 'An error ocurred'])
+            console.log(error)
+        })
     }
 
     const handle_list= (e)=> {
@@ -277,6 +321,10 @@ export default function Paper_(props){
                     set_msg(['warning', 'An error occured'])
                 }
             })
+            .catch((error) => {
+                set_msg(['warning', 'An error ocurred'])
+                console.log(error)
+            })
         }
     }
 
@@ -293,6 +341,10 @@ export default function Paper_(props){
             set_value(value+ `<img src="${data['url']}" />`)
             set_msg(['success', 'Image Created'])
         })
+        .catch((error) => {
+            set_msg(['warning', 'An error ocurred'])
+            console.log(error)
+        })
     }
 
     const handle_code= ()=> {
@@ -307,6 +359,10 @@ export default function Paper_(props){
         .then(data => {
             set_value(value+ `<code><pre>${data['content']}<pre/><code/>`)
             set_msg(['success', 'Code Written'])
+        })
+        .catch((error) => {
+            set_msg(['warning', 'An error ocurred'])
+            console.log(error)
         })
     }
 
@@ -328,10 +384,18 @@ export default function Paper_(props){
                 set_msg(['warning', 'An error ocurred'])
             }
         })
+        .catch((error) => {
+            set_msg(['warning', 'An error ocurred'])
+            console.log(error)
+        })
     }
+    useEffect(() => {
+        set_wordcount(value.split(' ').length - 1)
+        console.log(wordcount)
+      }, [value])
 
     return(
-        <Box sx={{marginTop: '4rem', bgcolor: '#d7d7ff', height: '85vh'}}>
+        <Box sx={{marginTop: '3rem', bgcolor: '#d7d7ff', height: '85vh'}}>
 
             {/* progress of process */}
             <Fade
@@ -345,15 +409,18 @@ export default function Paper_(props){
             </Fade>
                 
             <Box 
-            sx={{margin: '0 5rem', bgcolor: '#fff'}}
+            sx={{bgcolor: '#fff'}}
             onMouseUp={handle_selection} 
             >
+                <Box sx={{position: 'absolute', right:'120px', top:'58px', fontSize:'14px', color:'#444444'}}>{wordcount} Words</Box>
+                <Button variant='outlined' size='small' sx={{position:'absolute', right:'10px', top:'53px'}} onClick={() => Export2Word(value, 'content')} endIcon={<img src={wordIcon} alt='word' width='20px' />}>Export</Button>
+                <EditorToolbar value={value} />
                 <ReactQuill theme="snow"
                 modules={modules}
                 formats={formats}
                 value={value} 
                 onChange={handle_value} 
-                style={{height: '80vh',}}
+                style={{height: '90vh', width:'100%'}}
                 />
                 <Box sx={{position: 'absolute', top: '8rem', right: '1.2rem', bgcolor: '#a8f3a8'}}>
                     <Paper elevation={3}>
@@ -428,7 +495,6 @@ export default function Paper_(props){
                         </Button>
                 </DialogActions>
             </Dialog>
-
         </Box>
     )
 }
