@@ -25,7 +25,7 @@ export default function UserDashboard(props){
         <Box sx={{marginTop: '4rem'}}>
             <Grid container>
 
-                <Grid item xs={2} sx={{borderRight: 'solid black 1px'}}>
+                <Grid item xs={2} sx={{borderRight: 'solid #B7B9BA 1px'}}>
                     <List>
                         {/* <ListItem disablePadding>
                             <ListItemButton selected={index === 0} onClick={(e)=> handle_list_item(e, 0)}>

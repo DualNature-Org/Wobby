@@ -1,0 +1,12 @@
+.ql-container, .ql-clipboard{
+    margin: 0 7% !important;
+    background-color: white !important;
+}
+
+.quill{
+    background-color: #d7d7ff !important;
+}
+
+.ql-toolbar{
+    background-color: white !important;
+}

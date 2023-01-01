@@ -1,11 +1,23 @@
-import React, { useState } from 'react'
-import { AppBar, Toolbar, Typography, Tabs, Tab, Button, IconButton} from '@mui/material';
+import React, { useEffect, useState } from 'react'
+import { AppBar, Toolbar, Typography, Tabs, Tab, Button, IconButton, createTheme, ThemeProvider} from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 
 function Header(props) {
   const [value, setValue]= useState(0);
+  const [is_paper, set_is_paper] = useState(false);
+
+  // For dynamic height of navbar
+  const location = useLocation()
+    useEffect(() => {
+      if(location.pathname==='/tools/paper'){
+        set_is_paper(true)
+      }
+      else{
+        set_is_paper(false)
+      }
+    }, [location])
 
   const handle_login= ()=> {
     if(props.logined){
@@ -14,9 +26,20 @@ function Header(props) {
     return 'Dashboard'
   }
 
+  const theme = createTheme({
+    components: {
+        MuiToolbar: {
+            styleOverrides: {
+                dense: is_paper ? {minHeight: '48px'} : {minHeight: '64px'}
+            }
+        }
+    },
+})
+
   return(
-    <AppBar sx= {{position: 'fixed'}}>
-    <Toolbar>
+    <ThemeProvider theme={theme}>
+    <AppBar sx= {{position: 'fixed', height: is_paper ? '48px' : 'auto', boxShadow: 0}}>
+    <Toolbar variant='dense'>
       <Link to={'/'}>
         <IconButton sx={{color: '#fff'}}>
         <AdbIcon />
@@ -34,6 +57,7 @@ function Header(props) {
       </Tabs>
     </Toolbar>
     </AppBar>
+    </ThemeProvider>
   )
 }
 
