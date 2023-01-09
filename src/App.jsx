@@ -21,6 +21,7 @@ import {
 import Paper from './pages/tools/paper'
 
 import { useState } from 'react'
+import CheckOut from './pages/auth/check_out'
 
 export default function App(){
   const [username, set_username]= useState('')

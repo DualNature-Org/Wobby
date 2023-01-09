@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 
 export default function Card(props) {
     return(
-        <Paper elevation={2}>
+        <Paper elevation={2} sx={{boxShadow:'none', paddingTop:'50px'}}>
             <CardContent>
-                <Typography variant='h6'>
+                <Typography variant='h5'>
                     {props.name}
                 </Typography>
                 <br/>
@@ -15,7 +15,7 @@ export default function Card(props) {
             </CardContent>
             <CardActions>
                 <Link to={props.link}>
-                    <Button size="small">Try Now</Button>
+                    <Button size="medium" variant='outlined'>Try Now</Button>
                 </Link>
             </CardActions>
         </Paper>
