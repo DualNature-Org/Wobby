@@ -1,11 +1,17 @@
 import * as React from 'react';
+import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
+// MUI components
 import Box from '@mui/material/Box';
 import { Typography, Button, Container, Stack } from '@mui/material';
-import { Navigate } from 'react-router-dom';
-import logo from './logo_wobby.png'
-import { useState } from 'react';
+import logo from '../../asset/icons/logo_wobby.png'
+import Footer from '../../components/home/footer';
+import Pricing from '../../components/home/pricing';
+import Reviews from '../../components/home/reviews';
 
 export default function SimpleContainer() {
+  // states
   const [redirect, set_redirect]= useState(false)
   
   const handle_redirect= ()=> {
@@ -16,8 +22,8 @@ export default function SimpleContainer() {
     redirect? <Navigate to='/tools'/>: 
     <React.Fragment>
 
-      <Box sx={{ padding: '4rem 0', marginTop: '3rem', textAlign: 'center'}} >
-        <Container sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems: 'center', textAlign:'center', height:'100vh'}} >
+        <Box sx={{display: 'flex', justifyContent:'center', flexDirection:'column', alignItems:'center'}}>
             <img src={logo} style={{width: '100px', height: '120px'}}></img>
             <Typography variant='h5'>
                 Provide Digital Content Solution
@@ -25,28 +31,26 @@ export default function SimpleContainer() {
             <Typography variant='body1'>
                 We provide Tools for creating Digital Content using Artificial Intelligence.
             </Typography>
-            <Button variant='contained' sx={{marginTop: '2rem'}} onClick={handle_redirect}>
+            <Button variant='contained' sx={{marginTop: '1rem'}} onClick={handle_redirect}>
               Try For Free ...
             </Button>
-        </Container>
-      </Box>
+        </Box>
+      </Container>
 
-      <Box sx={{ padding: '3rem 0',background: '#d7f2ff', textAlign: 'center'}}>
-        <Container>
-          <Typography variant='h5' marginBottom={2}>About</Typography>
+      <Container maxWidth={false} sx={{ padding: '12rem 0',background: '#d7f2ff', textAlign: 'center', display:'flex', justifyContent:'center'}}>
+        <Box sx={{maxWidth:'800px'}}>
+          <Typography variant='h4' marginBottom={3}>About</Typography>
           <Typography variant="body1">
             WOBBY is a project that provides tools for creating digital content using artificial intelligence. The project is developed by DualNature, a company that specializes in artificial intelligence and machine learning. The goal of the project is to make it easier for people to create digital content, such as articles and blogs. The project is still in its early stages, but the company is already working on a number of features that will make it easier for users to create and manage their content.
           </Typography>
-        </Container>
-      </Box>
+        </Box>
+      </Container>
 
-      <Box sx={{display: 'flex', justifyContent: 'center'}}>
-        <a href='https://merchant.razorpay.com/policy/KcWGeJQrPKn8Gz/privacy'>Policy</a>
-        <a href='https://merchant.razorpay.com/policy/KcWGeJQrPKn8Gz/terms'>Terms</a>
-        <a href='https://merchant.razorpay.com/policy/KcWGeJQrPKn8Gz/refund'>Refund</a>
-        <a href='https://merchant.razorpay.com/policy/KcWGeJQrPKn8Gz/shipping'>Dilevery</a>
-        <a href='https://merchant.razorpay.com/policy/KcWGeJQrPKn8Gz/contact_us'>Contact</a>
-      </Box>
+      <Pricing />
+
+      <Reviews />
+
+      <Footer />
 
     </React.Fragment>
   );

@@ -3,14 +3,17 @@ import { Box, Container } from "@mui/system"
 import Plan from '../../components/plan'
 import InputSlider from '../../components/credit'
 import { useState } from "react"
+import CheckOut from "./check_out"
 
 export default function OrderPage(){
     const [credits, set_credits]= useState(100)
     const [checked, setChecked] = useState([true, false]);
+    const [modal, setModal] = useState(false);
 
     const handle_credits= (e, value)=> {
         set_credits(value)
     }
+
     const handle_order= (e)=> {
         const request_options={
             method: 'POST',
@@ -22,13 +25,14 @@ export default function OrderPage(){
         .then(data => {
             
         })
+        setModal(true)
     }
     
     return (
         <Box sx={{marginTop: '4rem'}}>
             <br></br>
             <Container>
-                <Paper elevation={3} sx={{padding: '1rem'}}>
+                <Paper elevation={3} sx={{padding: '4rem'}}>
                     <Typography variant="h5">
                         Select Plan According to Your Needs
                     </Typography>
@@ -36,18 +40,19 @@ export default function OrderPage(){
                         Here you can choose between different options and we can calculate the right amount of price that you need to pay
                     </Typography>
                     <br/>
-                    <Plan setChecked= {setChecked} checked= {checked} />
+                    {/* <Plan setChecked= {setChecked} checked= {checked} /> */}
                     <br/>
                     <InputSlider onChange={handle_credits} credits={credits} checked= {checked[1]}/>
                     <br/>
                     <Typography variant="body1">
                         Estimated Price: Rs.<span style={{fontSize: '1.5rem'}}>{credits*5}</span>
                     </Typography>
-                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Box sx={{display: 'flex', justifyContent: 'center', marginTop:'50px'}}>
                         <Button variant="contained" onClick={handle_order}>Confirm Order</Button>
                     </Box>
                 </Paper>
             </Container>
+            <CheckOut modal={modal} setModal={setModal} />
         </Box>
     )
 }
