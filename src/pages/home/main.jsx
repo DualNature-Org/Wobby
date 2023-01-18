@@ -9,6 +9,7 @@ import logo from '../../asset/icons/logo_wobby.png'
 import Footer from '../../components/home/footer';
 import Pricing from '../../components/home/pricing';
 import Reviews from '../../components/home/reviews';
+import Bot from 'react-chat-bot-joy-2';
 
 export default function SimpleContainer() {
   // states
@@ -22,6 +23,7 @@ export default function SimpleContainer() {
     redirect? <Navigate to='/tools'/>: 
     <React.Fragment>
 
+      <Bot />
       <Container sx={{ display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems: 'center', textAlign:'center', height:'100vh'}} >
         <Box sx={{display: 'flex', justifyContent:'center', flexDirection:'column', alignItems:'center'}}>
             <img src={logo} style={{width: '100px', height: '120px'}}></img>

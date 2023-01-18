@@ -79,7 +79,7 @@ export default function CheckOut(props){
 
     return (
         <Modal open={props.modal} sx={{marginTop: '4rem'}}>
-            <Paper elevation={3} sx={{padding: '1rem', height:'100vh'}}>
+            <Paper elevation={3} sx={{padding: '1rem', height:'50vh'}}>
                 <Typography variant="h5">Check Out Your Purchase</Typography>
                 <IconButton sx={{position:'absolute', right:'5%'}} onClick={() => handleModal()}><BackspaceOutlinedIcon fontSize="50px" /></IconButton>
                 <br></br>
